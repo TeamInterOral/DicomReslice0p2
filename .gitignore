@@ -1,0 +1,14 @@
+# Build artifacts
+build/
+dist/
+release/
+*.spec
+__pycache__/
+*.pyc
+
+# Logs / temp
+*.log
+reslice_log_*.txt
+
+# Never track medical data
+*.dcm
