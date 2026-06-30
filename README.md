@@ -20,6 +20,15 @@ page — no need to clone the repository:
 - `DicomReslice0p2_v1.0.zip` — the app bundled with the README files
 - `DicomReslice0p2.exe.sha256` — checksum to verify the download (see below)
 
+## Fixing the Implant Studio "slice distance is incorrect" error
+
+This tool was originally built to fix the 3Shape **Implant Studio** import error
+*"The distance between the layers in file … is incorrect. Expected = 0.200mm vs
+Actual = 0.400mm"* (non-uniform DICOM slice spacing). A full write-up with the
+exact error text, cause and step-by-step fix is here:
+
+➡ **[Solution page](https://teaminteroral.github.io/DicomReslice0p2/)**
+
 ## Requirements
 
 - Windows PC
