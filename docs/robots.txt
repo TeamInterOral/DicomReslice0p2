@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://teaminteroral.github.io/DicomReslice0p2/sitemap.xml
