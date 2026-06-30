@@ -45,6 +45,10 @@
   footer { margin-top:48px; border-top:1px solid var(--line); padding-top:16px; color:var(--muted); font-size:.88rem; }
   .toc { background:#f6f8fa; border:1px solid var(--line); border-radius:6px; padding:10px 18px; margin:18px 0; font-size:.93rem; }
   .toc ul { margin:.3em 0; }
+  .row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:12px 0; }
+  .row input[type=text] { padding:9px 11px; border:1px solid var(--line); border-radius:6px; font-size:.95rem; }
+  .row input[name=message] { flex:1; min-width:240px; }
+  #noteForm button { border:0; cursor:pointer; }
 </style>
 </head>
 <body>
@@ -62,6 +66,7 @@
     <li><a href="#fix">The fix (free tool, one click)</a></li>
     <li><a href="#manual">Alternative: do it manually in 3D Slicer</a></li>
     <li><a href="#faq">FAQ</a></li>
+    <li><a href="#thanks">Was this helpful?</a></li>
   </ul>
 </div>
 
@@ -136,6 +141,23 @@ Expected = 0.200mm vs Actual = 0.400mm.</div>
 <h3>Is it free and safe?</h3>
 <p>Yes — the tool is free and open source. The processing runs locally through your own 3D Slicer; nothing is uploaded. You can verify the download with the published SHA-256 checksum.</p>
 
+<h2 id="thanks">Was this helpful?</h2>
+<p>If this fixed your scan, leave a quick one-line note — <strong>no login needed</strong>. It really makes our day. 🙏</p>
+<form id="noteForm">
+  <input type="hidden" name="access_key" value="78bfaeb5-187e-4ecf-8d2a-cbe97289dd84">
+  <input type="hidden" name="subject" value="New thank-you note — DicomReslice0p2">
+  <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
+  <div class="row">
+    <input type="text" name="name" placeholder="Name (optional)" autocomplete="off">
+    <input type="text" name="message" placeholder="Your one-line note…" maxlength="300" required>
+    <button type="submit" class="cta">Send</button>
+  </div>
+  <p id="noteMsg" class="muted" style="margin:6px 0 0"></p>
+</form>
+<p style="margin-top:14px">
+  <a class="cta secondary" href="https://github.com/TeamInterOral/DicomReslice0p2" rel="nofollow">⭐ Star this on GitHub</a>
+</p>
+
 <footer>
   Maintained by <strong>Team InterOral</strong> ·
   <a href="https://github.com/TeamInterOral/DicomReslice0p2">GitHub repository</a> ·
@@ -190,6 +212,32 @@ Expected = 0.200mm vs Actual = 0.400mm.</div>
     }
   ]
 }
+</script>
+
+<script>
+(function () {
+  var form = document.getElementById('noteForm');
+  if (!form) return;
+  var msg = document.getElementById('noteMsg');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    msg.style.color = '';
+    msg.textContent = 'Sending…';
+    var data = {};
+    new FormData(form).forEach(function (v, k) { data[k] = v; });
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (j) {
+      if (j.success) { form.reset(); msg.style.color = '#1a7f37'; msg.textContent = 'Thank you! 🙏 Your note was sent.'; }
+      else { msg.style.color = '#d73a49'; msg.textContent = 'Sorry, something went wrong. Please try again.'; }
+    })
+    .catch(function () { msg.style.color = '#d73a49'; msg.textContent = 'Network error. Please try again.'; });
+  });
+})();
 </script>
 </body>
 </html>
